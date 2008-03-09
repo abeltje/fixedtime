@@ -10,6 +10,11 @@ The filelists have a short symbolic indicator:
 
 Enjoy!
 ___________________________________________________________________________
+[     9] By: abeltje                          on 2008-03-09 04:44:05 +0100
+        Log: * Regenerate Changes for fixedtime 0.02
+        Url: http://ztreet.xs4all.nl/repos/cpan/trunk/fixedtime
+           ! /trunk/fixedtime/Changes
+___________________________________________________________________________
 [     8] By: abeltje                          on 2008-03-09 04:38:11 +0100
         Log: * [CHANGE]
 	       + add: Changes file
