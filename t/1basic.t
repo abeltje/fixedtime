@@ -9,7 +9,7 @@ use Test::More tests => 8;
     my $nowstamp = time;
     my $fixstamp;
     {
-        use fixedtime stamp => 1204286400; # 29 Feb 2008 12:00:00 GMT
+        use fixedtime epoch_offset => 1204286400; # 29 Feb 2008 12:00:00 GMT
 
         ok defined \&CORE::GLOBAL::time,   "CORE::GLOBAL::time() defined";
         ok defined \&CORE::GLOBAL::gmtime, "CORE::GLOBAL::gmtime() defined";

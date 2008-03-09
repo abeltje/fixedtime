@@ -12,14 +12,14 @@ use constant EPOCHOFFSET => 1204286400; # 29 Feb 2008 12:00:00 GMT
 my @cgtime = localtime;
 my @fgtime = localtime( EPOCHOFFSET );
 {
-    use fixedtime stamp => EPOCHOFFSET;
+    use fixedtime epoch_offset => EPOCHOFFSET;
     my @ftime = localtime;
     is_deeply \@ftime, \@fgtime, 
               "localtime() is fixed (@{[ scalar localtime ]})"
         or diag Dumper \@ftime;
 
     { # nested calls should update the fixed stamp
-        use fixedtime stamp => EPOCHOFFSET + 60 * 60;
+        use fixedtime epoch_offset => EPOCHOFFSET + 60 * 60;
         my @fltime = @fgtime; $fltime[2] += 1;
         my @ltime = localtime;
         is_deeply \@ltime, \@fltime,

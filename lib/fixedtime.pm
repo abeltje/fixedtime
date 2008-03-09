@@ -3,11 +3,64 @@ use 5.010;    # this is a user-defined pragma and needs perl 5.10 or higher
 use warnings;
 use strict;
 
-our $VERSION = 0.01;
+our $VERSION = 0.02;
+
+=head1 NAME
+
+fixedtime - lexical pragma to fix the epoch offset for time related functions
+
+=head1 SYNOPSIS
+
+    use Test::More 'no_plan';
+
+    use constant EPOCH_OFFSET => 1204286400; # 29 Feb 2008 12:00:00 GMT
+
+    my $nowstamp = time;
+    my $fixstamp;
+    {
+        use fixedtime epoch_offset => EPOCH_OFFSET;
+
+        $fixstamp = time;
+        is $fixstamp, EPOCH_OFFSET, "Fixed point in time ($fixstamp)";
+        is scalar gmtime, "Fri Feb 29 12:00:00 2008",
+           "@{[ scalar gmtime ]}";
+
+        no fixedtime;
+        is time, $nowstamp, "we ran fast enough ($nowstamp)";
+    }
+
+    is time, $nowstamp, "we ran fast enough ($nowstamp)";
+
+=head1 DESCRIPTION
+
+This pragma demonstrates the new perl 5.10 user-defined lexical pragma
+capability. It uses the C<$^H{fixedtime}> hintshash entry to store the
+epochoffset. Whenever C<$^H{fixedtime}> is undefined, the praga is
+assumed not to be in effect.
+
+The C<fixedtime> pragma affects L<time()>, L<gmtime()> and
+L<localtime()> only when called without an argument.
+
+=head2 use fixedtime [epoch_offset => epoch_offset];
+
+This will enable the pragma in the current lexical scope. When the
+stamp argument is omitted, C<CORE::time()> is taken. While the pragma
+is in effect the epochoffset is not changed.
+
+B<Warning>: If you use a variable to set the epoch offset, make sure
+it is initialized at compile time.
+
+    my $stamp = 1204286400;
+    use fixedtime epoch_offset => $stamp; # Will not work as expected
+
+You will need something like:
+
+    use constant EPOCH_OFFSET => 1204286400;
+    use fixedtime epoch_offset => EPOCH_OFFSET;
 
 =begin private
 
-=head2 fixedtime->import( [stamp => EPOCH_OFFSET] )
+=head2 fixedtime->import( [epoch_offset => EPOCH_OFFSET] )
 
 C<import()> is called on compile-time whenever C<use fixedtime> is called.
 
@@ -21,8 +74,12 @@ sub import   {
     shift;
     my %args = @_;
     # we do not care about autoviv
-    $^H{fixedtime} = $args{stamp} // CORE::time;
+    $^H{fixedtime} = $args{epoch_offset} // CORE::time;
 }
+
+=head2 no fixedtime;
+
+This will disable the pragma in the current lexical scope.
 
 =begin private
 
@@ -49,8 +106,7 @@ C<epoch_offset()> returns the runtime status of the progma.
 =cut
  
 sub epoch_offset {
-    my $level = shift // 0;
-    my $ctrl_h = ( caller $level + 1 )[10];
+    my $ctrl_h = ( caller 1 )[10];
     return $ctrl_h->{fixedtime};
 }
 
@@ -80,60 +136,6 @@ BEGIN {
 1;
 
 __END__
-
-=head1 NAME
-
-fixedtime - lexical pragma to fix the epoch offset for time related functions
-
-=head1 SYNOPSIS
-
-    use Test::More 'no_plan';
-
-    my $nowstamp = time;
-    my $fixstamp;
-    {
-        use fixedtime stamp => 1204286400; # 29 Feb 2008 12:00:00 GMT
-
-        $fixstamp = time;
-        is $fixstamp, 1204286400, "Fixed point in time ($fixstamp)";
-        is scalar gmtime, "Fri Feb 29 12:00:00 2008", "@{[ scalar gmtime ]}";
-
-        no fixedtime;
-        is time, $nowstamp, "we ran fast enough ($nowstamp)";
-    }
-
-    is time, $nowstamp, "we ran fast enough ($nowstamp)";
-
-=head1 DESCRIPTION
-
-This pragma demonstrates the new perl 5.10 user-defined lexical pragma
-capability. It uses the C<$^H{fixedtime}> hintshash entry to store the
-epochoffset. Whenever C<$^H{fixedtime}> is undefined, the praga is
-assumed not to be in effect.
-
-The C<fixedtime> pragma affects L<time()>, L<gmtime()> and
-L<localtime()> only when called without an argument.
-
-=head2 use fixedtime [stamp => epoch_offset];
-
-This will enable the pragma in the current lexical scope. When the
-stamp argument is omitted, C<CORE::time()> is taken. While the pragma
-is in effect the epochoffset is not changed.
-
-B<Warning>: If you use a variable to set the epoch offset, make sure
-it is initialized at compile time.
-
-    my $stamp = 1204286400;
-    use fixedtime stamp => $stamp; # Will not work as expected
-
-You will need something like:
-
-    use constant STAMP => 1204286400;
-    use fixedtime stamp => STAMP;
-
-=head2 no fixedtime;
-
-This will disable the pragma in the current lexical scope.
 
 =head1 SEE ALSO
 
