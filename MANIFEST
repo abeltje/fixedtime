@@ -1,4 +1,5 @@
 MANIFEST
+Changes
 Makefile.PL
 lib/fixedtime.pm
 t/1basic.t
