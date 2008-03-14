@@ -6,3 +6,4 @@ lib/fixedtime.pm
 t/1basic.t
 t/2gmtime.t
 t/3localtime.t
+t/4example.t
