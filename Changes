@@ -10,6 +10,32 @@ The filelists have a short symbolic indicator:
 
 Enjoy!
 ___________________________________________________________________________
+[    14] By: abeltje                          on 2008-03-14 15:26:18 +0100
+        Log: * [CHANGE]
+	       * different wording: replace 'stamp' with 'epoch_offset'
+	       * rework the example code in the synopsis
+        Url: http://ztreet.xs4all.nl/repos/cpan/trunk/fixedtime
+           ! /trunk/fixedtime/lib/fixedtime.pm
+___________________________________________________________________________
+[    13] By: abeltje                          on 2008-03-14 15:23:39 +0100
+        Log: * [CHANGE]
+	       + add: new t/4example.t file
+        Url: http://ztreet.xs4all.nl/repos/cpan/trunk/fixedtime
+           + /trunk/fixedtime/t/4example.t
+           ! /trunk/fixedtime/MANIFEST
+___________________________________________________________________________
+[    12] By: abeltje                          on 2008-03-14 15:13:20 +0100
+        Log: * [CHANGE]
+	       + add: README file
+        Url: http://ztreet.xs4all.nl/repos/cpan/trunk/fixedtime
+           + /trunk/fixedtime/README
+           ! /trunk/fixedtime/MANIFEST
+___________________________________________________________________________
+[    10] By: abeltje                          on 2008-03-09 04:45:40 +0100
+        Log: * Regenerate Changes for fixedtime 0.02
+        Url: http://ztreet.xs4all.nl/repos/cpan/trunk/fixedtime
+           ! /trunk/fixedtime/Changes
+___________________________________________________________________________
 [     9] By: abeltje                          on 2008-03-09 04:44:05 +0100
         Log: * Regenerate Changes for fixedtime 0.02
         Url: http://ztreet.xs4all.nl/repos/cpan/trunk/fixedtime
