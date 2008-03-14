@@ -3,7 +3,7 @@ use 5.010;    # this is a user-defined pragma and needs perl 5.10 or higher
 use warnings;
 use strict;
 
-our $VERSION = 0.02;
+our $VERSION = 0.03;
 
 =head1 NAME
 
@@ -15,21 +15,19 @@ fixedtime - lexical pragma to fix the epoch offset for time related functions
 
     use constant EPOCH_OFFSET => 1204286400; # 29 Feb 2008 12:00:00 GMT
 
-    my $nowstamp = time;
-    my $fixstamp;
     {
         use fixedtime epoch_offset => EPOCH_OFFSET;
 
-        $fixstamp = time;
+        my $fixstamp = time;
         is $fixstamp, EPOCH_OFFSET, "Fixed point in time ($fixstamp)";
         is scalar gmtime, "Fri Feb 29 12:00:00 2008",
            "@{[ scalar gmtime ]}";
 
         no fixedtime;
-        is time, $nowstamp, "we ran fast enough ($nowstamp)";
+        isnt time, EPOCH_OFFSET, "time() is back to normal";
     }
 
-    is time, $nowstamp, "we ran fast enough ($nowstamp)";
+    isnt time, EPOCH_OFFSET, "time() is back to normal";
 
 =head1 DESCRIPTION
 
@@ -44,14 +42,14 @@ L<localtime()> only when called without an argument.
 =head2 use fixedtime [epoch_offset => epoch_offset];
 
 This will enable the pragma in the current lexical scope. When the
-stamp argument is omitted, C<CORE::time()> is taken. While the pragma
-is in effect the epochoffset is not changed.
+B<epoch_offset> argument is omitted, C<CORE::time()> is taken. While
+the pragma is in effect the epochoffset is not changed.
 
 B<Warning>: If you use a variable to set the epoch offset, make sure
 it is initialized at compile time.
 
-    my $stamp = 1204286400;
-    use fixedtime epoch_offset => $stamp; # Will not work as expected
+    my $epoch_offset = 1204286400;
+    use fixedtime epoch_offset => $epoch_offset; # Will not work as expected
 
 You will need something like:
 
