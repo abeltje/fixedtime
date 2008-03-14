@@ -1,6 +1,7 @@
 MANIFEST
 Changes
 Makefile.PL
+README
 lib/fixedtime.pm
 t/1basic.t
 t/2gmtime.t
