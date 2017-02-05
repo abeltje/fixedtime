@@ -24,6 +24,6 @@ use Test::More tests => 8;
         isnt $nowstamp, $fixstamp, "now() != fixed";
     }
 
-    is time, $nowstamp, "we ran fast enough outer ($nowstamp)";
+    cmp_ok time() - $nowstamp, '<', 2,  "we ran fast enough outer ($nowstamp)";
     isnt $nowstamp, $fixstamp, "now() != fixed";
 }
