@@ -4,6 +4,12 @@ Changes on 2017-03-11 for repository at:
 
 Enjoy!
 
+0.05_010001 2017-03-11T12:51:14Z +0100 (0224913 => abeltje)
+ - Update Makefile.PL with extra information.
+
+0.05_01 2017-03-11T12:25:33Z +0100 (1e7f9e4 => abeltje)
+ - Autocommit for distribution fixedtime 0.05_01 (test)
+
 0.05_000001 2017-03-11T10:30:24Z +0100 (3a8e40d => abeltje)
  - One cannot assume that the test runs in the same second
 
